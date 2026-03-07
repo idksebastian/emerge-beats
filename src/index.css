@@ -6,38 +6,38 @@
 
 @layer base {
   :root {
-    --background: 240 10% 4%;
-    --foreground: 0 0% 95%;
-    --card: 240 8% 8%;
-    --card-foreground: 0 0% 95%;
-    --popover: 240 8% 8%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 152 100% 50%;
-    --primary-foreground: 240 10% 4%;
-    --secondary: 240 6% 14%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 240 6% 14%;
-    --muted-foreground: 240 5% 55%;
-    --accent: 270 60% 55%;
-    --accent-foreground: 0 0% 98%;
+    --background: 300 100% 5%;
+    --foreground: 15 60% 92%;
+    --card: 270 60% 15%;
+    --card-foreground: 15 60% 92%;
+    --popover: 270 60% 15%;
+    --popover-foreground: 15 60% 92%;
+    --primary: 322 30% 42%;
+    --primary-foreground: 15 60% 92%;
+    --secondary: 280 60% 18%;
+    --secondary-foreground: 15 60% 92%;
+    --muted: 280 60% 18%;
+    --muted-foreground: 322 20% 55%;
+    --accent: 280 40% 27%;
+    --accent-foreground: 15 60% 92%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 6% 18%;
-    --input: 240 6% 18%;
-    --ring: 152 100% 50%;
+    --destructive-foreground: 15 60% 92%;
+    --border: 280 40% 22%;
+    --input: 280 40% 22%;
+    --ring: 322 30% 42%;
     --radius: 0.75rem;
-    --sidebar-background: 240 8% 6%;
-    --sidebar-foreground: 0 0% 90%;
-    --sidebar-primary: 152 100% 50%;
-    --sidebar-primary-foreground: 240 10% 4%;
-    --sidebar-accent: 240 6% 14%;
-    --sidebar-accent-foreground: 0 0% 90%;
-    --sidebar-border: 240 6% 18%;
-    --sidebar-ring: 152 100% 50%;
+    --sidebar-background: 300 100% 4%;
+    --sidebar-foreground: 15 60% 92%;
+    --sidebar-primary: 322 30% 42%;
+    --sidebar-primary-foreground: 15 60% 92%;
+    --sidebar-accent: 280 60% 18%;
+    --sidebar-accent-foreground: 15 60% 92%;
+    --sidebar-border: 280 40% 22%;
+    --sidebar-ring: 322 30% 42%;
 
-    --neon-glow: 152 100% 50%;
-    --surface: 240 8% 10%;
-    --surface-hover: 240 8% 14%;
+    --neon-glow: 322 30% 42%;
+    --surface: 270 60% 12%;
+    --surface-hover: 270 50% 18%;
   }
 }
 
