@@ -37,7 +37,7 @@ const Index = () => {
               Explore Music
             </Link>
             <Link
-              to="/explore"
+              to="/register"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-border text-foreground font-display font-semibold hover:bg-secondary transition-colors"
             >
               Sign Up Free

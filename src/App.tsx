@@ -8,6 +8,9 @@ import Navbar from "@/components/Navbar";
 import MusicPlayer from "@/components/MusicPlayer";
 import Index from "./pages/Index";
 import Explore from "./pages/Explore";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Recommendations from "./pages/Recommendations";
 import ArtistProfile from "./pages/ArtistProfile";
 import NotFound from "./pages/NotFound";
 
@@ -24,6 +27,9 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/explore" element={<Explore />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/recommendations" element={<Recommendations />} />
             <Route path="/artist/:id" element={<ArtistProfile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
