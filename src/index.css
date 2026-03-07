@@ -6,38 +6,38 @@
 
 @layer base {
   :root {
-    --background: 300 100% 5%;
-    --foreground: 15 60% 92%;
-    --card: 270 60% 15%;
-    --card-foreground: 15 60% 92%;
-    --popover: 270 60% 15%;
-    --popover-foreground: 15 60% 92%;
-    --primary: 322 30% 42%;
-    --primary-foreground: 15 60% 92%;
-    --secondary: 280 60% 18%;
-    --secondary-foreground: 15 60% 92%;
-    --muted: 280 60% 18%;
-    --muted-foreground: 322 20% 55%;
-    --accent: 280 40% 27%;
-    --accent-foreground: 15 60% 92%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 15 60% 92%;
-    --border: 280 40% 22%;
-    --input: 280 40% 22%;
-    --ring: 322 30% 42%;
+    --background: 210 15% 11%;
+    --foreground: 195 10% 90%;
+    --card: 210 12% 16%;
+    --card-foreground: 195 10% 90%;
+    --popover: 210 12% 16%;
+    --popover-foreground: 195 10% 90%;
+    --primary: 178 45% 50%;
+    --primary-foreground: 210 15% 11%;
+    --secondary: 210 10% 20%;
+    --secondary-foreground: 195 10% 90%;
+    --muted: 210 10% 20%;
+    --muted-foreground: 200 8% 55%;
+    --accent: 210 12% 25%;
+    --accent-foreground: 195 10% 90%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 195 10% 90%;
+    --border: 210 10% 22%;
+    --input: 210 10% 22%;
+    --ring: 178 45% 50%;
     --radius: 0.75rem;
-    --sidebar-background: 300 100% 4%;
-    --sidebar-foreground: 15 60% 92%;
-    --sidebar-primary: 322 30% 42%;
-    --sidebar-primary-foreground: 15 60% 92%;
-    --sidebar-accent: 280 60% 18%;
-    --sidebar-accent-foreground: 15 60% 92%;
-    --sidebar-border: 280 40% 22%;
-    --sidebar-ring: 322 30% 42%;
+    --sidebar-background: 210 15% 9%;
+    --sidebar-foreground: 195 10% 90%;
+    --sidebar-primary: 178 45% 50%;
+    --sidebar-primary-foreground: 210 15% 11%;
+    --sidebar-accent: 210 10% 20%;
+    --sidebar-accent-foreground: 195 10% 90%;
+    --sidebar-border: 210 10% 22%;
+    --sidebar-ring: 178 45% 50%;
 
-    --neon-glow: 322 30% 42%;
-    --surface: 270 60% 12%;
-    --surface-hover: 270 50% 18%;
+    --neon-glow: 178 45% 50%;
+    --surface: 210 12% 14%;
+    --surface-hover: 210 10% 22%;
   }
 }
 
