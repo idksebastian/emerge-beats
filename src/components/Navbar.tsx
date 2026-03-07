@@ -25,8 +25,11 @@ const Navbar = () => {
           <Link to="/explore" className="p-2 rounded-full hover:bg-secondary transition-colors">
             <Search className="w-5 h-5 text-muted-foreground" />
           </Link>
-          <Link to="/explore" className="px-5 py-2 rounded-full bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-opacity glow-green">
-            Start Listening
+          <Link to="/login" className="px-5 py-2 rounded-full border border-border text-foreground font-display font-semibold text-sm hover:bg-secondary transition-colors">
+            Iniciar Sesión
+          </Link>
+          <Link to="/register" className="px-5 py-2 rounded-full bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-opacity glow-green">
+            Registrarse
           </Link>
         </div>
 
