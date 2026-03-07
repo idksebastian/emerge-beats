@@ -8,6 +8,9 @@ import Navbar from "@/components/Navbar";
 import MusicPlayer from "@/components/MusicPlayer";
 import Index from "./pages/Index";
 import Explore from "./pages/Explore";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Recommendations from "./pages/Recommendations";
 import ArtistProfile from "./pages/ArtistProfile";
 import NotFound from "./pages/NotFound";
 
