@@ -44,6 +44,7 @@ const Navbar = () => {
           <Link to="/" className="text-sm py-2 text-muted-foreground">Home</Link>
           <Link to="/explore" className="text-sm py-2 text-muted-foreground">Explore</Link>
           <Link to="/recommendations" className="text-sm py-2 text-muted-foreground">Para Ti</Link>
+          <Link to="/upload" className="text-sm py-2 text-muted-foreground">Subir</Link>
           <Link to="/login" className="text-sm py-2 text-muted-foreground">Iniciar Sesión</Link>
           <Link to="/register" className="px-5 py-2 rounded-full bg-primary text-primary-foreground font-display font-semibold text-sm text-center">
             Registrarse
