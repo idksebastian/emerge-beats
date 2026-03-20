@@ -32,6 +32,7 @@ const App = () => (
             <Route path="/register" element={<Register />} />
             <Route path="/recommendations" element={<Recommendations />} />
             <Route path="/artist/:id" element={<ArtistProfile />} />
+            <Route path="/upload" element={<UploadSong />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <MusicPlayer />
