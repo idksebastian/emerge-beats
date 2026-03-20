@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Recommendations from "./pages/Recommendations";
 import ArtistProfile from "./pages/ArtistProfile";
+import UploadSong from "./pages/UploadSong";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/register" element={<Register />} />
             <Route path="/recommendations" element={<Recommendations />} />
             <Route path="/artist/:id" element={<ArtistProfile />} />
+            <Route path="/upload" element={<UploadSong />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <MusicPlayer />
