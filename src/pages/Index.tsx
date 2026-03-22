@@ -25,7 +25,7 @@ const Index = () => {
         .select("*")
         .order("created_at", { ascending: false })
         .limit(8);
-      setRecentSongs((data as SongRow[]) || []);
+      setRecentSongs(data || []);
       setLoading(false);
     };
     fetchSongs();
