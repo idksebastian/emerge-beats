@@ -36,7 +36,7 @@ const Explore = () => {
       }
 
       const { data } = await query.limit(20);
-      setSongs((data as SongRow[]) || []);
+      setSongs(data || []);
       setLoading(false);
     };
 
