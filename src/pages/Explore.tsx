@@ -25,7 +25,7 @@ const Explore = () => {
     const fetchSongs = async () => {
       let query = supabase
         .from("songs")
-        .select("*, profiles:user_id(display_name)")
+        .select("*")
         .order("created_at", { ascending: false });
 
       if (selectedGenre !== "Todos") {
