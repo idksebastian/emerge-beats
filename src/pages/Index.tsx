@@ -23,7 +23,7 @@ const Index = () => {
     const fetchSongs = async () => {
       const { data } = await supabase
         .from("songs")
-        .select("*, profiles:user_id(display_name, avatar_url)")
+        .select("*")
         .order("created_at", { ascending: false })
         .limit(8);
       setRecentSongs((data as SongRow[]) || []);
