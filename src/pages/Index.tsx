@@ -1,104 +1,123 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Headphones, Radio, TrendingUp, Sparkles } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
-import { artists, songs } from "@/lib/mock-data";
-import SongCard from "@/components/SongCard";
-import ArtistCard from "@/components/ArtistCard";
+import { ArrowRight, Music, Radio, TrendingUp, Sparkles, Headphones } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+interface SongRow {
+  id: string;
+  title: string;
+  genre: string;
+  cover_url: string | null;
+  plays: number;
+  likes: number;
+  user_id: string;
+  created_at: string;
+}
 
 const Index = () => {
-  const featuredArtists = artists.slice(0, 6);
-  const trendingSongs = songs.slice(0, 4);
-  const undergroundPicks = songs.slice(4, 8);
+  const [recentSongs, setRecentSongs] = useState<SongRow[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSongs = async () => {
+      const { data } = await supabase
+        .from("songs")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(8);
+      setRecentSongs(data || []);
+      setLoading(false);
+    };
+    fetchSongs();
+  }, []);
 
   return (
-    <div className="min-h-screen pb-24">
-      {/* Hero */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
-        <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background" />
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto animate-slide-up">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-sm text-muted-foreground mb-8">
+    <div className="min-h-screen pb-24 pt-20">
+      {/* Welcome banner */}
+      <section className="container mx-auto px-6 py-12">
+        <div className="rounded-2xl bg-card border border-border p-8 md:p-12 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-sm text-muted-foreground mb-6">
             <Sparkles className="w-4 h-4 text-primary" />
-            Discover underground talent
+            Plataforma de descubrimiento musical
           </div>
-          <h1 className="font-display text-5xl md:text-7xl font-bold leading-tight mb-6">
-            Discover the next generation of{" "}
-            <span className="text-primary glow-text">music</span>.
+          <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
+            Bienvenido a <span className="text-primary">SoundSeekers</span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            SoundSeekers connects you with emerging artists who are shaping the future of sound. No algorithms, no mainstream — just pure discovery.
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
+            Descubre música de artistas emergentes. Sube tus canciones, conecta con nuevos oyentes y explora sonidos únicos.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/explore"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary text-primary-foreground font-display font-semibold hover:opacity-90 transition-opacity glow-green"
-            >
-              <Headphones className="w-5 h-5" />
-              Explore Music
+            <Link to="/explore" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary text-primary-foreground font-display font-semibold hover:opacity-90 transition-opacity glow-green">
+              <Headphones className="w-5 h-5" /> Explorar música
             </Link>
-            <Link
-              to="/register"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-border text-foreground font-display font-semibold hover:bg-secondary transition-colors"
-            >
-              Sign Up Free
-              <ArrowRight className="w-5 h-5" />
+            <Link to="/register" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-border text-foreground font-display font-semibold hover:bg-secondary transition-colors">
+              Registrarse <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Featured Artists */}
-      <section className="container mx-auto px-6 py-20">
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <h2 className="font-display text-3xl font-bold">Featured Artists</h2>
-            <p className="text-muted-foreground mt-1">Artists making waves in the underground</p>
-          </div>
-          <Link to="/explore" className="text-sm text-primary hover:underline flex items-center gap-1">
-            View all <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
-          {featuredArtists.map((artist) => (
-            <ArtistCard key={artist.id} artist={artist} />
-          ))}
-        </div>
-      </section>
-
-      {/* Trending */}
+      {/* Recent songs from DB */}
       <section className="container mx-auto px-6 py-10">
         <div className="flex items-center gap-3 mb-8">
           <TrendingUp className="w-6 h-6 text-primary" />
-          <h2 className="font-display text-3xl font-bold">Trending Now</h2>
+          <h2 className="font-display text-2xl font-bold">Canciones recientes</h2>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {trendingSongs.map((song) => (
-            <SongCard key={song.id} song={song} />
-          ))}
-        </div>
-      </section>
 
-      {/* Underground Radar */}
-      <section className="container mx-auto px-6 py-10">
-        <div className="flex items-center gap-3 mb-8">
-          <Radio className="w-6 h-6 text-accent" />
-          <h2 className="font-display text-3xl font-bold">Underground Radar</h2>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {undergroundPicks.map((song) => (
-            <SongCard key={song.id} song={song} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="rounded-xl bg-card border border-border p-3 animate-pulse">
+                <div className="aspect-square rounded-lg bg-muted mb-3" />
+                <div className="h-4 bg-muted rounded w-3/4 mb-2" />
+                <div className="h-3 bg-muted rounded w-1/2" />
+              </div>
+            ))}
+          </div>
+        ) : recentSongs.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {recentSongs.map((song) => (
+              <div key={song.id} className="rounded-xl bg-card border border-border p-3 hover:border-primary/30 transition-colors">
+                <div className="aspect-square rounded-lg overflow-hidden mb-3 bg-muted">
+                  {song.cover_url ? (
+                    <img src={song.cover_url} alt={song.title} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Music className="w-10 h-10 text-muted-foreground" />
+                    </div>
+                  )}
+                </div>
+                <h3 className="font-display font-semibold text-sm truncate">{song.title}</h3>
+                <p className="text-xs text-muted-foreground truncate">
+                  {song.genre}
+                </p>
+                <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground">
+                  <span>{song.genre}</span>
+                  <span>{song.plays} plays</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 rounded-2xl bg-card border border-border">
+            <Music className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="font-display text-lg font-semibold mb-2">Aún no hay canciones</h3>
+            <p className="text-muted-foreground text-sm mb-6">Sé el primero en compartir tu música</p>
+            <Link to="/upload" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-display font-semibold text-sm">
+              Subir canción <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        )}
       </section>
 
       {/* How it works */}
-      <section className="container mx-auto px-6 py-20">
-        <h2 className="font-display text-3xl font-bold text-center mb-16">How SoundSeekers Works</h2>
+      <section className="container mx-auto px-6 py-16">
+        <h2 className="font-display text-2xl font-bold text-center mb-12">Cómo funciona</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { icon: Headphones, title: "Discover", desc: "Browse curated collections of underground music across all genres and moods." },
-            { icon: Radio, title: "Connect", desc: "Follow artists, save tracks, and build playlists that reflect your unique taste." },
-            { icon: TrendingUp, title: "Support", desc: "Help emerging artists grow by listening, sharing, and engaging with their work." },
+            { icon: Headphones, title: "Descubre", desc: "Explora canciones de artistas emergentes de todo el mundo." },
+            { icon: Radio, title: "Conecta", desc: "Sigue artistas, guarda canciones y crea tu colección." },
+            { icon: TrendingUp, title: "Apoya", desc: "Ayuda a artistas emergentes escuchando y compartiendo." },
           ].map(({ icon: Icon, title, desc }) => (
             <div key={title} className="text-center p-8 rounded-2xl bg-card border border-border hover:border-primary/30 transition-colors">
               <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
@@ -108,32 +127,6 @@ const Index = () => {
               <p className="text-muted-foreground text-sm">{desc}</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Artist of the Week */}
-      <section className="container mx-auto px-6 py-10 mb-10">
-        <div className="rounded-2xl bg-card border border-border overflow-hidden">
-          <div className="flex flex-col md:flex-row items-center">
-            <img src={artists[3].avatar} alt={artists[3].name} className="w-full md:w-72 h-72 object-cover" />
-            <div className="p-8 flex-1">
-              <span className="inline-flex items-center gap-1 text-xs text-primary font-display font-semibold uppercase tracking-wider mb-3">
-                <Sparkles className="w-3 h-3" /> Artist of the Week
-              </span>
-              <h2 className="font-display text-3xl font-bold mb-3">{artists[3].name}</h2>
-              <p className="text-muted-foreground mb-4">{artists[3].bio}</p>
-              <div className="flex gap-6 text-sm text-muted-foreground mb-6">
-                <span>{(artists[3].followers / 1000).toFixed(1)}K followers</span>
-                <span>{(artists[3].plays / 1000).toFixed(0)}K plays</span>
-              </div>
-              <Link
-                to={`/artist/${artists[3].id}`}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-opacity"
-              >
-                Listen Now <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
         </div>
       </section>
     </div>
