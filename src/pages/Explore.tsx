@@ -13,7 +13,6 @@ interface SongRow {
   likes: number;
   audio_url: string;
   user_id: string;
-  profiles?: { display_name: string | null } | null;
 }
 
 const Explore = () => {
