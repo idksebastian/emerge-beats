@@ -92,7 +92,7 @@ const Explore = () => {
                   )}
                 </div>
                 <h3 className="font-display font-semibold text-sm truncate">{song.title}</h3>
-                <p className="text-xs text-muted-foreground truncate">{(song.profiles as any)?.display_name || "Artista"}</p>
+                <p className="text-xs text-muted-foreground truncate">{song.genre}</p>
                 <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground">
                   <span>{song.genre}</span>
                   <span>{song.plays} plays</span>

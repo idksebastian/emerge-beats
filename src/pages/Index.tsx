@@ -89,7 +89,7 @@ const Index = () => {
                 </div>
                 <h3 className="font-display font-semibold text-sm truncate">{song.title}</h3>
                 <p className="text-xs text-muted-foreground truncate">
-                  {(song.profiles as any)?.display_name || "Artista"}
+                  {song.genre}
                 </p>
                 <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground">
                   <span>{song.genre}</span>
