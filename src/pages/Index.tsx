@@ -12,7 +12,6 @@ interface SongRow {
   likes: number;
   user_id: string;
   created_at: string;
-  profiles?: { display_name: string | null; avatar_url: string | null } | null;
 }
 
 const Index = () => {
