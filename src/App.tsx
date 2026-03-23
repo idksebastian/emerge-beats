@@ -12,9 +12,8 @@ import Explore from "./pages/Explore";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Recommendations from "./pages/Recommendations";
-import ArtistProfile from "./pages/ArtistProfile";
+import Profile from "./pages/Profile";
 import UploadSong from "./pages/UploadSong";
-import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,9 +33,9 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/recommendations" element={<Recommendations />} />
-              <Route path="/artist/:id" element={<ArtistProfile />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/edit" element={<Profile />} />
               <Route path="/upload" element={<UploadSong />} />
-              <Route path="/profile/edit" element={<EditProfile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <MusicPlayer />

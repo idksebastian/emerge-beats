@@ -30,7 +30,7 @@ const Navbar = () => {
           </Link>
           {user ? (
             <>
-              <Link to="/profile/edit" className="flex items-center gap-2 px-4 py-2 rounded-full border border-border hover:bg-secondary transition-colors">
+              <Link to="/profile" className="flex items-center gap-2 px-4 py-2 rounded-full border border-border hover:bg-secondary transition-colors">
                 {profile?.avatar_url ? (
                   <img src={profile.avatar_url} alt="" className="w-6 h-6 rounded-full object-cover" />
                 ) : (
@@ -69,7 +69,7 @@ const Navbar = () => {
           {user && <Link to="/upload" className="text-sm py-2 text-muted-foreground" onClick={() => setIsOpen(false)}>Subir</Link>}
           {user ? (
             <>
-              <Link to="/profile/edit" className="text-sm py-2 text-muted-foreground" onClick={() => setIsOpen(false)}>Mi perfil</Link>
+              <Link to="/profile" className="text-sm py-2 text-muted-foreground" onClick={() => setIsOpen(false)}>Mi perfil</Link>
               <button onClick={() => { signOut(); setIsOpen(false); }} className="text-sm py-2 text-muted-foreground text-left">Cerrar sesión</button>
             </>
           ) : (

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
@@ -11,7 +11,7 @@ import { Upload, Music, Image, Loader2, CheckCircle2, Lock } from "lucide-react"
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 
-const GENRES = ["Synthwave", "Lo-fi", "Industrial", "Dark Ambient", "Experimental", "Dream Pop", "Electronic", "Hip-Hop", "Rock", "Jazz", "R&B", "Classical"];
+const GENRES = ["Synthwave", "Lo-fi", "Industrial", "Dark Ambient", "Experimental", "Dream Pop", "Electronic", "Hip-Hop", "Rock", "Jazz", "R&B", "Classical", "Pop", "Reggaeton", "Indie", "Metal", "Country", "Latina", "Otro"];
 
 const UploadSong = () => {
   const { user, loading: authLoading } = useAuth();
@@ -23,6 +23,7 @@ const UploadSong = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [genre, setGenre] = useState("");
+  const [customGenre, setCustomGenre] = useState("");
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
@@ -38,37 +39,41 @@ const UploadSong = () => {
     if (file) setAudioFile(file);
   };
 
+  const finalGenre = genre === "Otro" ? customGenre.trim() : genre;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
-    if (!title.trim() || !genre || !audioFile) {
+    if (!title.trim() || !finalGenre || !audioFile) {
       toast({ title: "Campos requeridos", description: "Título, género y archivo de audio son obligatorios.", variant: "destructive" });
       return;
     }
     setUploading(true);
     try {
       const timestamp = Date.now();
-      const audioPath = `${user.id}/${timestamp}-${audioFile.name}`;
-      const { error: audioError } = await supabase.storage.from("song-audio").upload(audioPath, audioFile);
+      const audioExt = audioFile.name.split('.').pop() || 'mp3';
+      const audioPath = `${user.id}/${timestamp}.${audioExt}`;
+      const { error: audioError } = await supabase.storage.from("song-audio").upload(audioPath, audioFile, { contentType: audioFile.type });
       if (audioError) throw audioError;
       const { data: audioUrlData } = supabase.storage.from("song-audio").getPublicUrl(audioPath);
 
       let coverUrl: string | null = null;
       if (coverFile) {
-        const coverPath = `${user.id}/${timestamp}-${coverFile.name}`;
-        const { error: coverError } = await supabase.storage.from("song-covers").upload(coverPath, coverFile);
+        const coverExt = coverFile.name.split('.').pop() || 'jpg';
+        const coverPath = `${user.id}/${timestamp}.${coverExt}`;
+        const { error: coverError } = await supabase.storage.from("song-covers").upload(coverPath, coverFile, { contentType: coverFile.type });
         if (coverError) throw coverError;
         const { data: coverUrlData } = supabase.storage.from("song-covers").getPublicUrl(coverPath);
         coverUrl = coverUrlData.publicUrl;
       }
 
       const { error: insertError } = await supabase.from("songs").insert({
-        user_id: user.id, title: title.trim(), description: description.trim() || null, genre, audio_url: audioUrlData.publicUrl, cover_url: coverUrl,
+        user_id: user.id, title: title.trim(), description: description.trim() || null, genre: finalGenre, audio_url: audioUrlData.publicUrl, cover_url: coverUrl,
       });
       if (insertError) throw insertError;
 
       toast({ title: "¡Canción subida!", description: "Tu canción se ha publicado correctamente." });
-      navigate("/explore");
+      navigate("/profile");
     } catch (err: any) {
       toast({ title: "Error al subir", description: err.message, variant: "destructive" });
     } finally {
@@ -118,6 +123,9 @@ const UploadSong = () => {
           <div className="space-y-2">
             <Label>Género *</Label>
             <Select value={genre} onValueChange={setGenre}><SelectTrigger><SelectValue placeholder="Selecciona un género" /></SelectTrigger><SelectContent>{GENRES.map((g) => <SelectItem key={g} value={g}>{g}</SelectItem>)}</SelectContent></Select>
+            {genre === "Otro" && (
+              <Input className="mt-2" placeholder="Escribe tu género personalizado" value={customGenre} onChange={(e) => setCustomGenre(e.target.value)} maxLength={50} />
+            )}
           </div>
           <div className="space-y-2">
             <Label>Archivo de audio *</Label>
