@@ -69,7 +69,7 @@ const Navbar = () => {
           {user && <Link to="/upload" className="text-sm py-2 text-muted-foreground" onClick={() => setIsOpen(false)}>Subir</Link>}
           {user ? (
             <>
-              <Link to="/profile/edit" className="text-sm py-2 text-muted-foreground" onClick={() => setIsOpen(false)}>Mi perfil</Link>
+              <Link to="/profile" className="text-sm py-2 text-muted-foreground" onClick={() => setIsOpen(false)}>Mi perfil</Link>
               <button onClick={() => { signOut(); setIsOpen(false); }} className="text-sm py-2 text-muted-foreground text-left">Cerrar sesión</button>
             </>
           ) : (
