@@ -9,7 +9,6 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState<"listener" | "artist">("listener");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ const Register = () => {
       email,
       password,
       options: {
-        data: { display_name: name, role },
+        data: { display_name: name },
       },
     });
 
@@ -38,7 +37,7 @@ const Register = () => {
     }
 
     toast({ title: "¡Cuenta creada!", description: "Bienvenido a SoundSeekers." });
-    navigate("/profile/edit");
+    navigate("/profile");
   };
 
   const passwordChecks = [
@@ -58,32 +57,11 @@ const Register = () => {
           <p className="text-muted-foreground text-sm">Descubre música que no encontrarás en otro lugar</p>
         </div>
 
-        <div className="flex gap-3 mb-8">
-          {([
-            { value: "listener" as const, label: "Soy Oyente", desc: "Descubrir música" },
-            { value: "artist" as const, label: "Soy Artista", desc: "Compartir mi música" },
-          ]).map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => setRole(option.value)}
-              className={`flex-1 p-4 rounded-xl border text-left transition-all ${
-                role === option.value ? "border-primary bg-primary/5" : "border-border bg-card hover:border-muted-foreground/30"
-              }`}
-            >
-              <span className={`block text-sm font-display font-semibold ${role === option.value ? "text-primary" : "text-foreground"}`}>{option.label}</span>
-              <span className="block text-xs text-muted-foreground mt-1">{option.desc}</span>
-            </button>
-          ))}
-        </div>
-
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-display font-medium text-foreground mb-2">
-              {role === "artist" ? "Nombre artístico" : "Nombre completo"}
-            </label>
+            <label className="block text-sm font-display font-medium text-foreground mb-2">Nombre</label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-              placeholder={role === "artist" ? "Tu nombre de artista" : "Tu nombre"}
+              placeholder="Tu nombre"
               className="w-full px-4 py-3 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" required />
           </div>
 

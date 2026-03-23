@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Search, Music } from "lucide-react";
+import { Search, Music, Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { usePlayer, PlayerSong } from "@/context/PlayerContext";
 
-const genres = ["Todos", "Synthwave", "Lo-fi", "Industrial", "Dark Ambient", "Experimental", "Dream Pop", "Electronic", "Hip-Hop", "Rock", "Jazz", "R&B", "Classical"];
+const genres = ["Todos", "Synthwave", "Lo-fi", "Industrial", "Dark Ambient", "Experimental", "Dream Pop", "Electronic", "Hip-Hop", "Rock", "Jazz", "R&B", "Classical", "Pop", "Reggaeton", "Indie", "Metal", "Country", "Latina"];
 
 interface SongRow {
   id: string;
@@ -15,11 +16,18 @@ interface SongRow {
   user_id: string;
 }
 
+interface ProfileRow {
+  id: string;
+  display_name: string | null;
+}
+
 const Explore = () => {
   const [selectedGenre, setSelectedGenre] = useState("Todos");
   const [search, setSearch] = useState("");
   const [songs, setSongs] = useState<SongRow[]>([]);
+  const [profiles, setProfiles] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
+  const { playSong, setQueue } = usePlayer();
 
   useEffect(() => {
     const fetchSongs = async () => {
@@ -28,21 +36,44 @@ const Explore = () => {
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (selectedGenre !== "Todos") {
-        query = query.eq("genre", selectedGenre);
-      }
-      if (search.trim()) {
-        query = query.ilike("title", `%${search.trim()}%`);
-      }
+      if (selectedGenre !== "Todos") query = query.eq("genre", selectedGenre);
+      if (search.trim()) query = query.ilike("title", `%${search.trim()}%`);
 
       const { data } = await query.limit(20);
-      setSongs(data || []);
+      const songData = data || [];
+      setSongs(songData);
+
+      // Fetch profiles for artists
+      const userIds = [...new Set(songData.map(s => s.user_id))];
+      if (userIds.length > 0) {
+        const { data: profileData } = await supabase.from("profiles").select("id, display_name").in("id", userIds);
+        const map: Record<string, string> = {};
+        (profileData || []).forEach((p: ProfileRow) => { map[p.id] = p.display_name || "Artista"; });
+        setProfiles(map);
+      }
+
       setLoading(false);
     };
 
     setLoading(true);
     fetchSongs();
   }, [selectedGenre, search]);
+
+  const handlePlay = (song: SongRow) => {
+    const playerSong: PlayerSong = {
+      id: song.id,
+      title: song.title,
+      artistName: profiles[song.user_id] || "Artista",
+      cover: song.cover_url,
+      audioUrl: song.audio_url,
+    };
+    // Set queue with all songs
+    const allPlayerSongs: PlayerSong[] = songs.map(s => ({
+      id: s.id, title: s.title, artistName: profiles[s.user_id] || "Artista", cover: s.cover_url, audioUrl: s.audio_url,
+    }));
+    setQueue(allPlayerSongs);
+    playSong(playerSong);
+  };
 
   return (
     <div className="min-h-screen pt-24 pb-28">
@@ -81,8 +112,9 @@ const Explore = () => {
         ) : songs.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {songs.map((song) => (
-              <div key={song.id} className="rounded-xl bg-card border border-border p-3 hover:border-primary/30 transition-colors">
-                <div className="aspect-square rounded-lg overflow-hidden mb-3 bg-muted">
+              <div key={song.id} onClick={() => handlePlay(song)}
+                className="rounded-xl bg-card border border-border p-3 hover:border-primary/30 transition-colors cursor-pointer group">
+                <div className="aspect-square rounded-lg overflow-hidden mb-3 bg-muted relative">
                   {song.cover_url ? (
                     <img src={song.cover_url} alt={song.title} className="w-full h-full object-cover" />
                   ) : (
@@ -90,13 +122,15 @@ const Explore = () => {
                       <Music className="w-10 h-10 text-muted-foreground" />
                     </div>
                   )}
+                  <div className="absolute inset-0 bg-background/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
+                      <Play className="w-5 h-5 text-primary-foreground ml-0.5" />
+                    </div>
+                  </div>
                 </div>
                 <h3 className="font-display font-semibold text-sm truncate">{song.title}</h3>
-                <p className="text-xs text-muted-foreground truncate">{song.genre}</p>
-                <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground">
-                  <span>{song.genre}</span>
-                  <span>{song.plays} plays</span>
-                </div>
+                <p className="text-xs text-muted-foreground truncate">{profiles[song.user_id] || "Artista"}</p>
+                <p className="text-xs text-muted-foreground mt-1">{song.genre}</p>
               </div>
             ))}
           </div>
