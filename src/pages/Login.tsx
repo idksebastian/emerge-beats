@@ -24,6 +24,7 @@ const Login = () => {
       return;
     }
 
+    setLoading(false);
     toast({ title: "¡Bienvenido!", description: "Has iniciado sesión correctamente." });
     navigate("/profile");
   };

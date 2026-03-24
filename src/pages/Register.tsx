@@ -36,6 +36,7 @@ const Register = () => {
       return;
     }
 
+    setLoading(false);
     toast({ title: "¡Cuenta creada!", description: "Bienvenido a SoundSeekers." });
     navigate("/profile");
   };
